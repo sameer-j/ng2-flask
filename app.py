@@ -12,11 +12,12 @@ subprocess.Popen('tsc -w', cwd=os.path.join(CLIENT_APP_FOLDER, "app"), shell=Tru
 #-----
 
 
-@app.route('/')
-def home():
+@app.route('/', defaults={'path': ''})
+@app.route('/<path:path>')
+def home(path):
 	return send_from_directory(CLIENT_APP_FOLDER, 'index.html')
 
-@app.route('/<path:filename>')
+@app.route('/client-app/<path:filename>')
 def client_app_folder(filename):
 	return send_from_directory(CLIENT_APP_FOLDER, filename)
 
