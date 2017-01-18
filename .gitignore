@@ -3,3 +3,4 @@ ClientApp/jspm_packages
 ClientApp/app/**/*.js
 ClientApp/app/**/*.js.map
 ClientApp/*.js.map
+ClientApp/npm-debug.log
