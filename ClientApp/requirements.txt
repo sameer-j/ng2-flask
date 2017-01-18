@@ -1,0 +1,5 @@
+npm install --save manifest-revision-webpack-plugin
+flask-webpack
+flask
+npm install from package.json
+npm install -g typescript
