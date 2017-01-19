@@ -11,7 +11,7 @@
     // map tells the System loader where to look for things
     map: {
       // our app is within the app folder
-      app: 'client-app/app',
+      app: 'client-app/app/jsdump',
 
       // angular bundles
       '@angular/core': 'npm:@angular/core/bundles/core.umd.js',

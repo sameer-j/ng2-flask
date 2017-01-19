@@ -12,8 +12,8 @@ subprocess.Popen('tsc -w', cwd=os.path.join(CLIENT_APP_FOLDER, "app"), shell=Tru
 #-----
 
 
-@app.route('/', defaults={'path': ''})
-@app.route('/<path:path>')
+@app.route('/', defaults={'path': ''}) #Catch All urls, enabling copy-paste url
+@app.route('/<path:path>') #Catch All urls, enabling copy-paste url
 def home(path):
 	return send_from_directory(CLIENT_APP_FOLDER, 'index.html')
 

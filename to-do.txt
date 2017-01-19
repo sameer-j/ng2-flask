@@ -1,0 +1,3 @@
+- remove dependency on npm
+- clear js or output js files onto some dir
+- move html,css files to assets folder
