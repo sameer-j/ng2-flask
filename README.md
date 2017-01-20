@@ -13,3 +13,5 @@ Variations over angular2 tutorial:
 - use of flask as server
 - moved js and map files to app/jsdump folder
 - moved html, css files to app/assets folder
+- removed angular-in-memory-api, replaced with a simple dict-db implemented in python
+- flask rest api, without using any plugin
