@@ -4,3 +4,4 @@ ClientApp/app/**/*.js
 ClientApp/app/**/*.js.map
 ClientApp/*.js.map
 ClientApp/npm-debug.log
+__pycache__
