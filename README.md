@@ -1,5 +1,6 @@
 # ng2-flask
 Angular2 tour-of-heroes project with flask
+- first install python-flask and nodejs
 - To install the dependencies, go the ClientApp folder and do:
     ```
     $ npm install
