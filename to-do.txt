@@ -1,3 +1,5 @@
 - remove dependency on npm
+
+Done:
 - clear js or output js files onto some dir
 - move html,css files to assets folder

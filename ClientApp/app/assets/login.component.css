@@ -1,33 +1,4 @@
-h1 {
-  font-size: 1.2em;
-  color: #999;
-  margin-bottom: 0;
-}
-h2 {
-  font-size: 2em;
-  margin-top: 0;
-  padding-top: 0;
-}
-nav a {
-  padding: 5px 10px;
-  text-decoration: none;
-  margin-top: 10px;
-  display: inline-block;
-  background-color: #eee;
-  border-radius: 4px;
-}
-nav a:visited, a:link {
-  color: #607D8B;
-}
-nav a:hover {
-  color: #039be5;
-  background-color: #CFD8DC;
-}
-nav a.active {
-  color: #039be5;
-}
-
-html { 
+/*.sm-container { 
   width: 100%;
   height:100%;
   font-family: 'Open Sans', sans-serif;
@@ -38,4 +9,83 @@ html {
   background: -ms-radial-gradient(0% 100%, ellipse cover, rgba(104,128,138,.4) 10%,rgba(138,114,76,0) 40%), -ms-linear-gradient(top,  rgba(57,173,219,.25) 0%,rgba(42,60,87,.4) 100%), -ms-linear-gradient(-45deg,  #670d10 0%,#092756 100%);
   background: -webkit-radial-gradient(0% 100%, ellipse cover, rgba(104,128,138,.4) 10%,rgba(138,114,76,0) 40%), linear-gradient(to bottom,  rgba(57,173,219,.25) 0%,rgba(42,60,87,.4) 100%), linear-gradient(135deg,  #670d10 0%,#092756 100%);
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#3E1D6D', endColorstr='#092756',GradientType=1 );
+}*/
+
+.login-container {
+  width: 500px;
+  height: 400px;
+  margin: 0 auto;
+}
+
+.login {
+  margin-top: 50px;
+  width: 450px;
+}
+
+.login-heading {
+  font: 1.8em/48px "Tenor Sans", sans-serif;
+  color: white;
+}
+
+.input-txt {
+  width: 100%;
+  padding: 20px 10px;
+  background-color: transparent;
+  border: none;
+  font-size: 1em;
+  color: white;
+  border-bottom: 1px dotted rgba(250, 250, 250, 0.4);
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  -moz-transition: background-color 0.5s ease-in-out;
+  -o-transition: background-color 0.5s ease-in-out;
+  -webkit-transition: background-color 0.5s ease-in-out;
+  transition: background-color 0.5s ease-in-out;
+}
+.input-txt:-moz-placeholder {
+  color: #81aac9;
+}
+.input-txt:-ms-input-placeholder {
+  color: #81aac9;
+}
+.input-txt::-webkit-input-placeholder {
+  color: #81aac9;
+}
+.input-txt:focus {
+  background-color: #776376;
+  outline: #4c3d4b;
+  outline-style: dotted;}
+
+.login-footer {
+  margin: 10px 0;
+  overlow: hidden;
+  float: left;
+  width: 100%;
+}
+
+.btn {
+  padding: 15px 30px;
+  border: none;
+  background: white;
+  color: #5D92BA;
+}
+
+.btn--right {
+  float: right;
+}
+
+.icon {
+  display: inline-block;
+}
+
+.icon--min {
+  font-size: .9em;
+}
+
+.lnk {
+  font-size: .8em;
+  line-height: 3em;
+  color: white;
+  text-decoration: none;
 }

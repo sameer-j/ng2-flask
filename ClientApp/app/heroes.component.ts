@@ -9,7 +9,7 @@ import { Router } from '@angular/router'
 	moduleId: module.id,
   	selector: 'my-heroes',
   	templateUrl: '../assets/heroes.component.html',
-  	styles: [ '../assets/hereoes.component.css' ],
+  	styleUrls: [ '../assets/heroes.component.css' ],
 })
 
 export class HeroesComponent implements OnInit {

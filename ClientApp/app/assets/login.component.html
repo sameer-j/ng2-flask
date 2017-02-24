@@ -1,0 +1,24 @@
+<div class="outer-container">
+<div class="login-container">
+  <div class="login">
+    <h1 class="login-heading">
+    <strong>Welcome.</strong> Please login.</h1>
+    <form (ngSubmit)="onSubmit()" #loginForm="ngForm">
+      <div class="form-group">
+      <input type="text" name="username" id="username" placeholder="Username" required class="input-txt form-control" [(ngModel)]="uname">
+      <input type="password" name="password" id="password" placeholder="Password" required class="input-txt form-control" [(ngModel)]="pwd">
+      <div class="login-footer">
+        <a href="#" class="lnk">
+          <span class="icon icon--min">ಠ╭╮ಠ</span>
+          I've forgotten something
+        </a>
+        <button type="submit" class="btn btn--right">Sign in </button>
+      </div>
+      </div>
+    </form>
+    <div *ngIf="message" class="alert alert-danger" style="color: red">
+    {{message}}</div>
+  </div>
+</div>
+</div>
+        
