@@ -4,6 +4,9 @@ import { Observable } from 'rxjs/Observable';
 import { Router } from '@angular/router';
 import { AuthGuard } from './auth.guard'
 
+// import '../assets/jwt-decode.min.js';
+import '../jwt-decode.min.js'
+declare var jwt_decode: any;
 @Injectable()
 export class AuthenticationService {
   constructor(
@@ -25,13 +28,15 @@ export class AuthenticationService {
         let res = response.json();
         if (res.user && res.token)
         {
+          alert(JSON.stringify(jwt_decode(res.token)));
+          // jwt_decode(res.token);
           localStorage.setItem('currentUser', JSON.stringify(res));
           this.authguard.isLoggedIn = true;
         }
       });
   }
 
-  logout():Promise<void> {
+  logout() {
     localStorage.removeItem('currentUser');
     this.authguard.isLoggedIn = false;
     this.router.navigate(['/login'])
