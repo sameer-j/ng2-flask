@@ -1,7 +1,7 @@
 from flask import Flask, send_from_directory, request, redirect, url_for, g
 from flask import jsonify, render_template, abort
 import os, json
-import subprocess
+import subprocess, ssl
 from in_memory_db import IMDB
 from User import User, UserActions
 from functools import wraps
@@ -21,17 +21,12 @@ def login_required(api_method):
 	@wraps(api_method)
 
 	def check_login(*args, **kwargs):
-		print(request)
 		userid = request.headers.get('Authorization')
-		print('here1',userid)
 		if userid:
 			userid = userid.replace('Bearer ','', 1)
 			try:
-				print('here2')
-				userid = User.decode_auth_token(userid)
-				print('here3',userid)
+				userid = UserActions.decode_auth_token(userid)
 			except Exception as e:
-				print('here4')
 				print(e)
 				abort(401)
 			if userid:
@@ -41,6 +36,21 @@ def login_required(api_method):
 
 	return check_login
 
+# @app.route('/register' , methods=['GET','POST'])
+# def register():
+# 	if request.method == 'GET':
+# 		return render_template('register.html')
+# 	user = User(request.form['username'] , request.form['password'],request.form['email'])
+# 	UserActions.add(user)
+# 	print('User successfully registered')
+# 	return redirect(url_for('login'))
+
+# @app.before_request
+# def before_request():
+# 	print('^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^')
+# 	g.user = current_user
+
+
 @app.route('/api/login',methods=['POST'])
 def login():
 	username = request.json['uname']
@@ -48,7 +58,7 @@ def login():
 	registered_user = UserActions.getUser(username=username,password=password)
 	
 	if registered_user:
-		auth_token = registered_user.encode_auth_token(registered_user.id)
+		auth_token = UserActions.encode_auth_token(registered_user.id)
 		if auth_token:
 			responseObject = {
 			'status': 'success',
@@ -56,6 +66,7 @@ def login():
 			'user': json.dumps(registered_user.__dict__),
 			'token': auth_token
 			}
+			# login_user(registered_user)
 			return jsonify(responseObject)
 	else:
 		responseObject = {
@@ -113,4 +124,6 @@ def client_app_app_folder(filename):
 	return send_from_directory(os.path.join(CLIENT_APP_FOLDER, "app"), filename)
 
 if __name__ == "__main__":
-	app.run(debug=True)
+	context = ssl.SSLContext(ssl.PROTOCOL_TLSv1_2)
+	context.load_cert_chain(os.path.join('ssl', 'ng2toh.crt'), os.path.join('ssl', 'ng2toh.key'))
+	app.run(ssl_context=context, threaded=True, debug=True)
