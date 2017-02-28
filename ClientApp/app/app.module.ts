@@ -33,8 +33,7 @@ import { AppRoutingModule } from './app-routing.module'
       LoginComponent
   ],
   bootstrap:    [ AppComponent ],
-  providers: [ HeroService, AuthenticationService, AuthGuard ]
+  providers: [ HeroService, AuthenticationService, AuthGuard]
 })
-
 
 export class AppModule { }

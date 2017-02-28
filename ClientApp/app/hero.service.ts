@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Headers, Http } from '@angular/http';
 
+import { AuthenticationService } from './authentication.service';
+
 import 'rxjs/add/operator/toPromise';
 
 import { Hero } from './hero'
@@ -8,22 +10,16 @@ import { Hero } from './hero'
 @Injectable()
 export class HeroService {
 	private heroesUrl = 'api/heroes'; // URL to web api
-	// private headers = new Headers({'Content-Type': 'application/json'});
 
-	constructor(private http: Http) {}
+	constructor(
+		public authService: AuthenticationService,
+		private http: Http) {}
 	getHeroes(): Promise<Hero[]> {
 		// return Promise.resolve(HEROES);
 		return this.http.get(this.heroesUrl, {headers: this.jwt()})
 				   .toPromise()
 				   .then(response => response.json().data as Hero[])
-				   .catch(this.handleError);
-	}
-
-	private handleError(error: any): Promise<any> {
-		console.error('An error occurred', error); //for demo purposes only
-		if (error.status == 401)
-			alert('Unauthorised');
-		return Promise.reject(error.message || error);
+				   .catch((err)=>this.handleError(err));
 	}
 
 	getHero(id: number): Promise<Hero> {
@@ -34,7 +30,7 @@ export class HeroService {
 		return this.http.get(url, {headers: this.jwt()})
 				   .toPromise()
 				   .then(response => response.json().data as Hero)
-				   .catch(this.handleError);
+				   .catch((err)=>this.handleError(err));
 	}
 
 	update(hero: Hero): Promise<Hero> {
@@ -43,7 +39,7 @@ export class HeroService {
 				   .put(url, JSON.stringify(hero), {headers: this.jwt()})
 				   .toPromise()
 				   .then(() => hero)
-				   .catch(this.handleError);
+				   .catch((err)=>this.handleError(err));
 	}
 
 	create(name: string): Promise<Hero> {
@@ -51,7 +47,7 @@ export class HeroService {
 				.post(this.heroesUrl, JSON.stringify({name: name}), {headers: this.jwt()})
 				.toPromise()
 				.then(res => res.json().data)
-				.catch(this.handleError);
+				.catch((err)=>this.handleError(err));
 	}
 
 	delete(id: number): Promise<void> {
@@ -59,7 +55,7 @@ export class HeroService {
 		return this.http.delete(url, {headers: this.jwt()})
 				.toPromise()
 				.then(() => null)
-				.catch(this.handleError);
+				.catch((err)=>this.handleError(err));
 	}
 
 	private jwt() {
@@ -70,4 +66,21 @@ export class HeroService {
 				'Content-Type': 'application/json'});
 		}
 	}
+
+	handleError(error: any) {
+   	console.error('An error occurred', error);
+	if (error.status == 401)
+	{
+		alert(error.json()['message'])
+		let currentUser = JSON.parse(localStorage.getItem('currentUser'));
+		if(currentUser)
+		{
+			localStorage.removeItem('currentUser');
+            this.authService.isLoggedIn = false;
+		}
+        this.authService.router.navigate(['/login']);
+	}
+	else
+		return Promise.reject(error.message || error);
+  }
 }

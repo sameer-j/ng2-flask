@@ -3,7 +3,7 @@ from flask import jsonify, render_template, abort
 import os, json
 import subprocess, ssl
 from in_memory_db import IMDB
-from User import User, UserActions
+from User import User, UserActions, BlacklistToken
 from functools import wraps
 
 app = Flask(__name__)
@@ -27,14 +27,20 @@ def login_required(api_method):
 			try:
 				userid = UserActions.decode_auth_token(userid)
 			except Exception as e:
-				print(e)
-				abort(401)
+				print('Exception:',e)
+				# abort(401, e)
+				return route_error(401, str(e))
 			if userid:
 				return api_method(*args, **kwargs)
-		print('here?')
-		abort(401)
+		return route_error(401, 'Unauthorized user')
 
 	return check_login
+
+def route_error(code, message):
+	print('Error!:', code, message)
+	response = jsonify({'message':message})
+	response.status_code = code
+	return response
 
 # @app.route('/register' , methods=['GET','POST'])
 # def register():
@@ -63,10 +69,11 @@ def login():
 			responseObject = {
 			'status': 'success',
 			'message': 'Successfully logged in',
-			'user': json.dumps(registered_user.__dict__),
+			'userid': registered_user.id,
+			'role': registered_user.role,
 			'token': auth_token
 			}
-			# login_user(registered_user)
+			print('User Logged in!')
 			return jsonify(responseObject)
 	else:
 		responseObject = {
@@ -74,6 +81,30 @@ def login():
 		'message': 'Invalid credentials'
 		}	
 		return jsonify(responseObject)
+
+@app.route('/api/logout')
+@login_required
+def logout():
+	auth_header = request.headers.get('Authorization')
+	auth_token = auth_header.replace('Bearer ','', 1)
+	blacklist_token = BlacklistToken(token=auth_token)
+	BlacklistToken.blacklisted_tokens.append(blacklist_token)
+	return jsonify({'data':'successfully logged out'})
+
+@app.route('/api/authenticate_user', methods=['POST'])
+@login_required
+def auth_user():
+	print('Authenticating User....')
+	print(request.json)
+	currentUser = request.json
+	user = UserActions.get(currentUser['userid'])
+	if user:
+		print(currentUser['role'])
+		print(user.id, user.username, user.role)
+		if user.role != currentUser['role']:
+			return route_error(401, 'Role Unauthorized')
+		return jsonify({'data':'authorized'})
+	return route_error(401, 'User not found!')
 
 @app.route('/api/heroes', methods=['GET'])
 @login_required
