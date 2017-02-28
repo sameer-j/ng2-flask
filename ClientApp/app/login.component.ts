@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
 import { AuthenticationService } from './authentication.service';
 
 @Component({
@@ -9,19 +9,29 @@ import { AuthenticationService } from './authentication.service';
   styleUrls: [ '../assets/login.component.css' ] 
 })
 
-export class LoginComponent {
+export class LoginComponent implements OnInit{
   message: string;
   uname: string;
   pwd: string;
+  returnUrl: string;
   constructor(
     public authService: AuthenticationService, 
-    public router: Router) {};
+    public router: Router,
+    private activeRoute: ActivatedRoute) {};
+
+  ngOnInit() {
+    //reset login status
+    this.authService.logout();
+
+    //get return url from route parameters or default to '/'
+    this.returnUrl = this.activeRoute.snapshot.queryParams['returnUrl'] || '/';
+
+  }
 
   onSubmit() {
     this.authService.login(this.uname, this.pwd).subscribe(() => {
-      if (this.authService.authguard.isLoggedIn) {
-        let redirect = this.authService.authguard.redirectUrl ? this.authService.authguard.redirectUrl : '/dashboard';
-        this.router.navigate([redirect]);
+      if (this.authService.isLoggedIn) {
+        this.router.navigate([this.returnUrl]);
       }
       else
       {
