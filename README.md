@@ -1,4 +1,6 @@
 # ng2-flask
+[![HitCount](http://hits.dwyl.io/sameer-j/sameer-j/ng2-flask.svg)](http://hits.dwyl.io/sameer-j/sameer-j/ng2-flask)
+
 Angular2 tour-of-heroes project with flask
 - first install python-flask and nodejs
 - To install the dependencies, go the ClientApp folder and do:
